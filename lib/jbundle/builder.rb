@@ -43,12 +43,16 @@ module JBundle
     
     def build!
       @sources = @config.bundles_and_files.map do |b|
-        comp = Compiler.new(b.name, b, @config.src_dir).compile!
-        @config.filters.each do |filter|
-          filter.call(comp.src, @config)
-        end
-        comp
+        build_one b
       end
+    end
+    
+    def build_one(compiler)
+      comp = Compiler.new(compiler.name, compiler, @config.src_dir).compile!
+      @config.filters.each do |filter|
+        filter.call(comp.src, @config)
+      end
+      comp
     end
     
   end

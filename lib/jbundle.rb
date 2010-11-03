@@ -31,6 +31,12 @@ module JBundle
       end
     end
     
+    def build(name)
+      found = config.bundles_and_files.detect {|f| f.name == name}
+      raise "No bundle or file found with name #{name}" unless found
+      Builder.new(config).build_one found
+    end
+    
   end
   
 end

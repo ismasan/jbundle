@@ -43,6 +43,11 @@ describe "JBundle" do
   
   context 'bundling' do
     
+    it 'should build single bundles' do
+      JBundle.build('foo.js').src.should == "var VERSION = '1.6.1';\nvar a1 = 1;\nvar a2 = 2;\n"
+      JBundle.build('file4.js').min.should == "var a4=4;\n"
+    end
+    
     it 'should bundle bundles' do
       JBundle.output.size.should == 3
       JBundle.output[0].name.should == 'foo.js'
