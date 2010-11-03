@@ -4,11 +4,17 @@ module JBundle
   
   class Compiler
     
+    BUILDABLE_FILES = ['.js']
+    
     attr_reader :name
     attr_accessor :src
     
     def initialize(name, file_list, src_dir = 'src')
       @name, @file_list, @src_dir = name.to_s, file_list, src_dir
+    end
+    
+    def buildable?
+      BUILDABLE_FILES.include?(::File.extname(name))
     end
     
     def compile!

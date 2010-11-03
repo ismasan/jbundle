@@ -24,6 +24,8 @@ describe "JBundle" do
       
       file 'file4.js'
       
+      file 'text.txt'
+      
       filter do |src, config|
         src.gsub!(/<VERSION>/, config.version)
       end
@@ -49,15 +51,11 @@ describe "JBundle" do
     end
     
     it 'should bundle bundles' do
-      JBundle.output.size.should == 3
+      JBundle.output.size.should == 4
       JBundle.output[0].name.should == 'foo.js'
       JBundle.output[0].src.should == "var VERSION = '1.6.1';\nvar a1 = 1;\nvar a2 = 2;\n"
       JBundle.output[0].min.should == "var VERSION=\"1.6.1\",a1=1,a2=2;\n"
     end
-    
-  end
-  
-  context 'filters' do
     
   end
   
@@ -77,6 +75,8 @@ describe "JBundle" do
       File.exist?(@dist + '/1.6.1/foo2.min.js').should be_true
       File.exist?(@dist + '/1.6.1/file4.js').should be_true
       File.exist?(@dist + '/1.6.1/file4.min.js').should be_true
+      File.exist?(@dist + '/1.6.1/text.txt').should be_true
+      File.exist?(@dist + '/1.6.1/text.min.txt').should be_false
       
       File.exist?(@dist + '/1.6/foo.js').should be_true
       File.exist?(@dist + '/1.6/foo.min.js').should be_true
@@ -84,6 +84,8 @@ describe "JBundle" do
       File.exist?(@dist + '/1.6/foo2.min.js').should be_true
       File.exist?(@dist + '/1.6/file4.js').should be_true
       File.exist?(@dist + '/1.6/file4.min.js').should be_true
+      File.exist?(@dist + '/1.6/text.txt').should be_true
+      File.exist?(@dist + '/1.6/text.min.txt').should be_false
     end
   end
   

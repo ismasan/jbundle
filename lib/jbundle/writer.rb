@@ -40,7 +40,9 @@ module JBundle
     def write
       @version.releaseable.each do |version_dir|
         write_file @compiler.src, ::File.join(@target_dir, version_dir), @compiler.name
-        write_file @compiler.min, ::File.join(@target_dir, version_dir), @compiler.min_name
+        if @compiler.buildable?
+          write_file @compiler.min, ::File.join(@target_dir, version_dir), @compiler.min_name
+        end
       end
     end
     
