@@ -59,4 +59,15 @@ Or
     JBundle.build('foo.js').min
     
 All defined filters will run on the src for all these cases.
+
+## TODO
+
+- For non-javascript files, only run filters (string substitution) on text files. Just copy over the rest
+- Insert unminified licenses in minified source, something like:
+
+    bundle 'foo.js' do
+      license 'foo_license.txt'
+      file 'file1.js'
+      file file2.js'
+    end
     
