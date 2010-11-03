@@ -1,0 +1,30 @@
+PATH
+  remote: .
+  specs:
+    jbundle (0.0.1)
+      closure-compiler
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    closure-compiler (0.3.3)
+    diff-lcs (1.1.2)
+    rspec (2.0.1)
+      rspec-core (~> 2.0.1)
+      rspec-expectations (~> 2.0.1)
+      rspec-mocks (~> 2.0.1)
+    rspec-core (2.0.1)
+    rspec-expectations (2.0.1)
+      diff-lcs (>= 1.1.2)
+    rspec-mocks (2.0.1)
+      rspec-core (~> 2.0.1)
+      rspec-expectations (~> 2.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (>= 1.0.0)
+  closure-compiler
+  jbundle!
+  rspec

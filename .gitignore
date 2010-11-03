@@ -1,0 +1,6 @@
+pkg/*
+*.gem
+.bundle
+spec/dist/*
+.rvmrc
+.DS_Store
