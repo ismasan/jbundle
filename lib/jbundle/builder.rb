@@ -6,8 +6,7 @@ module JBundle
     
     BUILDABLE_FILES = ['.js']
     
-    attr_reader :name
-    attr_accessor :src
+    attr_reader :name, :src_dir
     
     def initialize(name, file_list, src_dir = 'src')
       @name, @file_list, @src_dir = name.to_s, file_list, src_dir
@@ -17,17 +16,12 @@ module JBundle
       BUILDABLE_FILES.include?(::File.extname(name))
     end
     
-    def compile!
-      @src = @file_list.inject('') do |mem, file_name|
-        mem << ::File.read(::File.join(@src_dir, file_name))
-        mem << "\n"
-        mem
-      end
-      self
+    def src
+      @src ||= licenses + raw_src
     end
     
     def min
-      @min ||= Closure::Compiler.new.compile(src)
+      @min ||= licenses + Closure::Compiler.new.compile(raw_src)
     end
     
     def min_name
@@ -35,6 +29,28 @@ module JBundle
         ext = ::File.extname(name)
         name.sub(ext, '') + '.min' + ext
       )
+    end
+    
+    def licenses
+      @licenses ||= if @file_list.respond_to?(:licenses)
+        read_files @file_list.licenses
+      else
+        ''
+      end
+    end
+    
+    def raw_src
+      @raw_src ||= read_files(@file_list)
+    end
+    
+    protected
+    
+    def read_files(file_names)
+      file_names.inject('') do |mem, file_name|
+        mem << ::File.read(::File.join(src_dir, file_name))
+        mem << "\n"
+        mem
+      end
     end
     
   end
@@ -53,12 +69,13 @@ module JBundle
       end
     end
     
-    def build_one(compiler)
-      comp = Compiler.new(compiler.name, compiler, @config.src_dir).compile!
+    def build_one(f)
+      compiler = Compiler.new(f.name, f, @config.src_dir)
       @config.filters.each do |filter|
-        filter.call(comp.src, @config)
+        filter.call(compiler.licenses, @config)
+        filter.call(compiler.raw_src, @config)
       end
-      comp
+      compiler
     end
     
   end

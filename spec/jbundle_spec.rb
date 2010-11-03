@@ -18,6 +18,7 @@ describe "JBundle" do
       end
       
       bundle 'foo2.js' do
+        license 'license.txt'
         file 'file3.js'
         file 'file4.js'
       end
@@ -55,6 +56,11 @@ describe "JBundle" do
       JBundle.output[0].name.should == 'foo.js'
       JBundle.output[0].src.should == "var VERSION = '1.6.1';\nvar a1 = 1;\nvar a2 = 2;\n"
       JBundle.output[0].min.should == "var VERSION=\"1.6.1\",a1=1,a2=2;\n"
+    end
+    
+    it 'should not minify licenses' do
+      JBundle.build('foo2.js').src.should == "/* Version: 1.6.1\nThis is a license\n-----------------------*/\nvar a3 = 3;\nvar a4 = 4;\n"
+      JBundle.build('foo2.js').min.should == "/* Version: 1.6.1\nThis is a license\n-----------------------*/\nvar a3=3,a4=4;\n"
     end
     
   end
