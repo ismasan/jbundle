@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "jbundle"
 
   s.add_development_dependency "bundler", ">= 1.0.0"
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec", '1.3.1'
   s.add_dependency 'closure-compiler'
 
   s.files        = `git ls-files`.split("\n")
