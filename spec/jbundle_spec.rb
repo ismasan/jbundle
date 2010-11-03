@@ -1,16 +1,18 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'fileutils'
 
+DIST = File.dirname(__FILE__)+'/dist'
+
 describe "JBundle" do
   
   before do
     
     JBundle.reset!
-    
     JBundle.config do
       version '1.6.1'
       
       src_dir File.dirname(__FILE__) + '/test_src'
+      target_dir DIST
       
       bundle 'foo.js' do
         file 'file1.js'
@@ -68,30 +70,29 @@ describe "JBundle" do
   context 'writing' do
     
     before do
-      @dist = File.dirname(__FILE__)+'/dist'
-      FileUtils.rm_rf @dist
+      FileUtils.rm_rf DIST
     end
     
     it 'should write files' do
-      JBundle.write_to(@dist)
+      JBundle.write!
       
-      File.exist?(@dist + '/1.6.1/foo.js').should be_true
-      File.exist?(@dist + '/1.6.1/foo.min.js').should be_true
-      File.exist?(@dist + '/1.6.1/foo2.js').should be_true
-      File.exist?(@dist + '/1.6.1/foo2.min.js').should be_true
-      File.exist?(@dist + '/1.6.1/file4.js').should be_true
-      File.exist?(@dist + '/1.6.1/file4.min.js').should be_true
-      File.exist?(@dist + '/1.6.1/text.txt').should be_true
-      File.exist?(@dist + '/1.6.1/text.min.txt').should be_false
-      
-      File.exist?(@dist + '/1.6/foo.js').should be_true
-      File.exist?(@dist + '/1.6/foo.min.js').should be_true
-      File.exist?(@dist + '/1.6/foo2.js').should be_true
-      File.exist?(@dist + '/1.6/foo2.min.js').should be_true
-      File.exist?(@dist + '/1.6/file4.js').should be_true
-      File.exist?(@dist + '/1.6/file4.min.js').should be_true
-      File.exist?(@dist + '/1.6/text.txt').should be_true
-      File.exist?(@dist + '/1.6/text.min.txt').should be_false
+      File.exist?(DIST + '/1.6.1/foo.js').should be_true
+      File.exist?(DIST + '/1.6.1/foo.min.js').should be_true
+      File.exist?(DIST + '/1.6.1/foo2.js').should be_true
+      File.exist?(DIST + '/1.6.1/foo2.min.js').should be_true
+      File.exist?(DIST + '/1.6.1/file4.js').should be_true
+      File.exist?(DIST + '/1.6.1/file4.min.js').should be_true
+      File.exist?(DIST + '/1.6.1/text.txt').should be_true
+      File.exist?(DIST + '/1.6.1/text.min.txt').should be_false
+
+      File.exist?(DIST + '/1.6/foo.js').should be_true
+      File.exist?(DIST + '/1.6/foo.min.js').should be_true
+      File.exist?(DIST + '/1.6/foo2.js').should be_true
+      File.exist?(DIST + '/1.6/foo2.min.js').should be_true
+      File.exist?(DIST + '/1.6/file4.js').should be_true
+      File.exist?(DIST + '/1.6/file4.min.js').should be_true
+      File.exist?(DIST + '/1.6/text.txt').should be_true
+      File.exist?(DIST + '/1.6/text.min.txt').should be_false
     end
   end
   

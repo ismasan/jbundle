@@ -31,9 +31,9 @@ module JBundle
       self
     end
     
-    def write_to(target_dir)
+    def write!
       output.each do |compiler|
-        Writer.new(compiler, config.version, target_dir).write
+        Writer.new(compiler, config.version, config.target_dir || './dist').write
       end
     end
     
@@ -45,7 +45,7 @@ module JBundle
     
     def run(content)
       config.instance_eval content
-      write_to config.target_dir || './dist'
+      write!
     end
     
   end

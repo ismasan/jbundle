@@ -25,12 +25,14 @@ Define a set of javascript files to bundle and minify
       filter do |src, config|
         src.gsub!(/<VERSION>/, config.version)
       end
+      
+      target_dir 'dist'
 
     end
     
-Then write them to a directory
+Then write them to the configured target directory
 
-    JBundle.write_to './dist'
+    JBundle.write!
     
 This will write the following files:
 
