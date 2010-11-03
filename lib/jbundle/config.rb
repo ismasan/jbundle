@@ -20,6 +20,11 @@ module JBundle
       @src_dir
     end
     
+    def target_dir(dir = nil)
+      @target_dir = dir if dir
+      @target_dir
+    end
+    
     def bundle(name, &block)
       name = name.to_sym
       if !b = @bundles.detect{|a| a.name == name}

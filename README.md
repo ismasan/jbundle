@@ -68,7 +68,40 @@ You can bundle licenses in bundles. Licenses will not be minified even if though
     
 All defined filters will run on the src for all these cases.
 
+## JBundlefile
+
+You can add configuration in a JBundlefile in the root of your project.
+
+    version '1.0.1'
+
+    src_dir './'
+
+    bundle 'foo.js' do
+      license 'license.txt'
+      file 'file1.js'
+      file 'file2.js'
+    end
+
+    file 'page.html'
+
+    filter do |src, config|
+      src.gsub! /<VERSION>/, config.version
+    end
+
+    target_dir 'dist'
+    
+Then you can bundle everything up with the command line tool
+
+    $ jbundle
+    
+## Pre-releases
+
+If you want a prerelease not to overwrite the previous point release, suffix it with "-pre", as in:
+
+    version '1.0.1-pre'
+    
+
 ## TODO
 
-- For non-javascript files, only run filters (string substitution) on text files. Just copy over the rest
+- DRY up stuff, better error handling for missing config
     
