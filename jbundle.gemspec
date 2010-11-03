@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.name        = "jbundle"
   s.version     = JBundle::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = []
-  s.email       = []
+  s.authors     = ['Ismael Celis']
+  s.email       = ['ismaelct@gmail.com']
   s.homepage    = "http://github.com/ismasan/jbundle"
   s.summary     = "Writes versioned, bundled and minified javascript files and dependencies"
   s.description = "Good for releasing javascript libraries composed of many files. Writes files apt for deploying to CDNs."
