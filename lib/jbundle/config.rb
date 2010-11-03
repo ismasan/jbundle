@@ -1,47 +1,17 @@
 module JBundle
   
-  class Version
-
-    def initialize(string)
-      @major, @minor, @patch = string.split('.')
-      raise "require (major.minor.patch) eg: 1.3.1" unless @major && @minor && @patch
-    end
-
-    def full
-      [@major, @minor, @patch].join('.')
-    end
-
-    def major_minor 
-      [@major, @minor].join('.')
-    end
-
-    def releaseable
-      prerelease? ? [full] : [full, major_minor]
-    end
-    
-    def to_s
-      full
-    end
-
-    protected
-
-    def prerelease?
-      @patch =~ /-pre/
-    end
-
-  end
-  
   class Config
     
-    attr_reader :bundles, :files, :src_dir
+    attr_reader :bundles, :files, :src_dir, :filters
     
     def initialize
       @bundles = []
       @files = []
+      @filters = []
     end
     
     def version(v = nil)
-      @version = Version.new(v) if v
+      @version = v if v
       @version
     end
     
@@ -64,6 +34,9 @@ module JBundle
       @files << JBundle::File.new(f)
     end
     
+    def filter(&block)
+      filters << block
+    end
     
     def bundles_and_files
       @bundles + @files

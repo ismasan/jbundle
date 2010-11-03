@@ -23,6 +23,11 @@ describe "JBundle" do
       end
       
       file 'file4.js'
+      
+      filter do |src, config|
+        src.gsub!(/<VERSION>/, config.version)
+      end
+      
     end
     
   end
@@ -41,9 +46,13 @@ describe "JBundle" do
     it 'should bundle bundles' do
       JBundle.output.size.should == 3
       JBundle.output[0].name.should == 'foo.js'
-      JBundle.output[0].src.should == "var a1 = 1;\nvar a2 = 2;\n"
-      JBundle.output[0].min.should == "var a1=1,a2=2;\n"
+      JBundle.output[0].src.should == "var VERSION = '1.6.1';\nvar a1 = 1;\nvar a2 = 2;\n"
+      JBundle.output[0].min.should == "var VERSION=\"1.6.1\",a1=1,a2=2;\n"
     end
+    
+  end
+  
+  context 'filters' do
     
   end
   

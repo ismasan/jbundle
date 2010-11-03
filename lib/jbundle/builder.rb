@@ -4,7 +4,8 @@ module JBundle
   
   class Compiler
     
-    attr_reader :src, :name
+    attr_reader :name
+    attr_accessor :src
     
     def initialize(name, file_list, src_dir = 'src')
       @name, @file_list, @src_dir = name.to_s, file_list, src_dir
@@ -42,7 +43,11 @@ module JBundle
     
     def build!
       @sources = @config.bundles_and_files.map do |b|
-        Compiler.new(b.name, b, @config.src_dir).compile!
+        comp = Compiler.new(b.name, b, @config.src_dir).compile!
+        @config.filters.each do |filter|
+          filter.call(comp.src, @config)
+        end
+        comp
       end
     end
     
