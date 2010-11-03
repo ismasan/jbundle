@@ -32,9 +32,9 @@ module JBundle
     end
     
     def write!
-      output.each do |compiler|
+      output.map do |compiler|
         Writer.new(compiler, config.version, config.target_dir || './dist').write
-      end
+      end.flatten
     end
     
     def build(name)

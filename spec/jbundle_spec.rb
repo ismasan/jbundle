@@ -71,11 +71,10 @@ describe "JBundle" do
     
     before do
       FileUtils.rm_rf DIST
+      @written_files = JBundle.write!
     end
     
     it 'should write files' do
-      JBundle.write!
-      
       File.exist?(DIST + '/1.6.1/foo.js').should be_true
       File.exist?(DIST + '/1.6.1/foo.min.js').should be_true
       File.exist?(DIST + '/1.6.1/foo2.js').should be_true
@@ -94,6 +93,29 @@ describe "JBundle" do
       File.exist?(DIST + '/1.6/text.txt').should be_true
       File.exist?(DIST + '/1.6/text.min.txt').should be_false
     end
+    
+    it 'should return a list of files written' do
+      @written_files.should == [
+        DIST + '/1.6.1/foo.js',
+        DIST + '/1.6.1/foo.min.js',
+        DIST + '/1.6/foo.js',
+        DIST + '/1.6/foo.min.js',
+        
+        DIST + '/1.6.1/foo2.js',
+        DIST + '/1.6.1/foo2.min.js',
+        DIST + '/1.6/foo2.js',
+        DIST + '/1.6/foo2.min.js',
+        
+        DIST + '/1.6.1/file4.js',
+        DIST + '/1.6.1/file4.min.js',
+        DIST + '/1.6/file4.js',
+        DIST + '/1.6/file4.min.js',
+        
+        DIST + '/1.6.1/text.txt',
+        DIST + '/1.6/text.txt'
+      ]
+    end
+    
   end
   
 end

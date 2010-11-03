@@ -34,6 +34,8 @@ Then write them to the configured target directory
 
     JBundle.write!
     
+JBundle.write! returns an array of paths of all files written.
+    
 This will write the following files:
 
     'dist/1.6.1/foo.js'
