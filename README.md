@@ -50,7 +50,7 @@ This will write the following files:
     'dist/1.6/file4.min.js'
     'dist/1.6/text.txt'
     
-Or you can build a single bundle/file dinamically (ie. for testing)
+Or you can build a single bundle/file dinamically (ie. for testing, or for serving and caching dinamically)
 
     JBundle.build('foo.js').src
     
