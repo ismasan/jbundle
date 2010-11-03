@@ -39,18 +39,27 @@ module JBundle
     
     def write
       @version.releaseable.each do |version_dir|
-        write_file @compiler.src, ::File.join(@target_dir, version_dir), @compiler.name
         if @compiler.buildable?
+          write_file @compiler.src, ::File.join(@target_dir, version_dir), @compiler.name
           write_file @compiler.min, ::File.join(@target_dir, version_dir), @compiler.min_name
+        else
+          copy_file @compiler.src_path, ::File.join(@target_dir, version_dir, @compiler.name)
         end
       end
     end
     
     protected
     
+    def copy_file(src, target)
+      JBundle.log("Copying to #{target}")
+      FileUtils.cp src, target
+    end
+    
     def write_file(content, dir_name, file_name)
       FileUtils.mkdir_p dir_name
-      ::File.open(::File.join(dir_name, file_name), 'w') do |f|
+      path = ::File.join(dir_name, file_name)
+      JBundle.log("Writing to #{path}")
+      ::File.open(path, 'w') do |f|
         f.write content
       end
     end

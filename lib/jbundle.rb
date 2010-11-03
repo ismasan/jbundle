@@ -9,6 +9,12 @@ module JBundle
   
   class << self
     
+    attr_accessor :logger
+    
+    def log(msg)
+      logger.call(msg)
+    end
+    
     def config(&block)
       @current_config ||= JBundle::Config.new
       @current_config.instance_eval(&block) if block_given?
@@ -38,5 +44,7 @@ module JBundle
     end
     
   end
+  
+  self.logger = lambda {|msg| puts "#{msg}\n"}
   
 end

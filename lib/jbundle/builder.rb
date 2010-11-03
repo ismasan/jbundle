@@ -16,6 +16,11 @@ module JBundle
       BUILDABLE_FILES.include?(::File.extname(name))
     end
     
+    # This only makes sense for one-file objects
+    def src_path
+      ::File.join(@src_dir, name)
+    end
+    
     def src
       @src ||= licenses + raw_src
     end
