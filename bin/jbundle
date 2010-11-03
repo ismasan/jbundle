@@ -1,0 +1,9 @@
+require 'jbundle'
+
+JBUNDLE_FILE = 'JBundlefile'
+
+if ::File.exists?(JBUNDLE_FILE)
+  JBundle.run( ::File.read(JBUNDLE_FILE) )
+else
+  puts "You need to define ./#{JBUNDLE_FILE}"
+end

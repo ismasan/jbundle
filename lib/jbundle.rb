@@ -43,6 +43,11 @@ module JBundle
       Builder.new(config).build_one found
     end
     
+    def run(content)
+      config.instance_eval content
+      write_to config.target_dir || './dist'
+    end
+    
   end
   
   self.logger = lambda {|msg| puts "#{msg}\n"}
