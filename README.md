@@ -72,9 +72,9 @@ You can bundle licenses in bundles. Licenses will not be minified even if though
     
 All defined filters will run on the src for all these cases.
 
-## JBundlefile
+## Jfile
 
-You can add configuration in a JBundlefile in the root of your project.
+You can add configuration in a Jfile in the root of your project.
 
     version '1.0.1'
 
