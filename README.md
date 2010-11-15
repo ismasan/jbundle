@@ -1,4 +1,4 @@
-## JBundle (in progress)
+## JBundle
 
 Define a set of javascript files to bundle and minify
 
