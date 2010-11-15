@@ -62,7 +62,7 @@ Or
 
     JBundle.build('foo.js').min
     
-You can bundle licenses in bundles. Licenses will not be minified even if though they end up as part of minified files
+You can bundle licenses in bundles. Licenses will not be minified even though they end up being part of minified files
 
     bundle 'foo2.js' do
       license 'license.txt'
