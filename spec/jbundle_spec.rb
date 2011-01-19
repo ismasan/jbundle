@@ -6,35 +6,7 @@ DIST = File.dirname(__FILE__)+'/dist'
 describe "JBundle" do
   
   before do
-    
-    JBundle.reset!
-    JBundle.config do
-      version '1.6.1'
-      
-      src_dir File.dirname(__FILE__) + '/test_src'
-      target_dir DIST
-      
-      bundle 'foo.js' do
-        file 'file1.js'
-        file 'file2.js'
-      end
-      
-      bundle 'foo2.js' do
-        license 'license.txt'
-        file 'file3.js'
-        file 'file4.js'
-      end
-      
-      file 'file4.js'
-      
-      file 'text.txt'
-      
-      filter do |src, config|
-        src.gsub!(/<VERSION>/, config.version)
-      end
-      
-    end
-    
+    JBundle.config_from_file ::File.join(::File.dirname(__FILE__),'JFile')
   end
   
   it 'should have a version' do

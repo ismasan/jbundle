@@ -2,11 +2,9 @@ require 'jbundle'
 
 JBUNDLE_FILE = 'Jfile'
 
-if ::File.exists?(JBUNDLE_FILE)
-  JBundle.run( ::File.read(JBUNDLE_FILE) )
-elsif ::File.exists?('JBundlefile')
-  puts "JBundlefile is deprecated. Please rename it to #{JBUNDLE_FILE}. Sorry! I'll run it this time anyway."
-  JBundle.run( ::File.read('JBundlefile') )
-else
-  puts "You need to define ./#{JBUNDLE_FILE}"
+begin
+  JBundle.config_from_file(JBUNDLE_FILE)
+  JBundle.write!
+rescue JBundle::NoJFileError => boom
+  puts boom.message
 end

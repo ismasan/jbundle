@@ -7,6 +7,8 @@ require 'jbundle/writer'
 
 module JBundle
   
+  class NoJFileError < StandardError;end
+  
   class << self
     
     attr_accessor :logger
@@ -43,9 +45,10 @@ module JBundle
       Builder.new(config).build_one found
     end
     
-    def run(content)
-      config.instance_eval content
-      write!
+    def config_from_file(file)
+      raise NoJFileError, "You need to define #{file}" unless ::File.exists?(file)
+      reset!
+      config.instance_eval( ::File.read(file), file )
     end
     
   end

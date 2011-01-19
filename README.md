@@ -55,11 +55,13 @@ This will write the following files:
     'dist/1.6/text.txt'
     
 Or you can build a single bundle/file dinamically (ie. for testing, or for serving and caching dinamically)
-
+    
+    JBundle.config_from_file './JFile'
     JBundle.build('foo.js').src
     
 Or
 
+    JBundle.config_from_file './JFile'
     JBundle.build('foo.js').min
     
 You can bundle licenses in bundles. Licenses will not be minified even though they end up being part of minified files
