@@ -18,6 +18,10 @@ file 'file4.js'
 
 file 'text.txt'
 
+file 'nested/foo.txt'
+
+# file 'nested/bar.txt' => 'flat_bar.txt'
+
 filter do |src, config|
   src.gsub!(/<VERSION>/, config.version.full)
 end

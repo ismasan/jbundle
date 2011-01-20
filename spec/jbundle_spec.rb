@@ -26,7 +26,7 @@ describe "JBundle" do
     end
     
     it 'should bundle bundles' do
-      JBundle.output.size.should == 4
+      JBundle.output.size.should == 5
       JBundle.output[0].name.should == 'foo.js'
       JBundle.output[0].src.should == "var VERSION = '1.6.1';\nvar a1 = 1;\nvar a2 = 2;\n"
       JBundle.output[0].min.should == "var VERSION=\"1.6.1\",a1=1,a2=2;\n"
@@ -71,6 +71,11 @@ describe "JBundle" do
       File.exist?(DIST + '/1.6/foo.txt').should be_true
     end
     
+    it 'should copy files in subdirectories' do
+      File.exist?(DIST + '/1.6.1/nested/foo.txt').should be_true
+      File.exist?(DIST + '/1.6/nested/foo.txt').should be_true
+    end
+    
     it 'should return a list of files written' do
       @written_files.should == [
         DIST + '/1.6.1/foo.js',
@@ -89,7 +94,10 @@ describe "JBundle" do
         DIST + '/1.6/file4.min.js',
         
         DIST + '/1.6.1/text.txt',
-        DIST + '/1.6/text.txt'
+        DIST + '/1.6/text.txt',
+        
+        DIST + '/1.6.1/nested/foo.txt',
+        DIST + '/1.6/nested/foo.txt'
       ]
     end
     

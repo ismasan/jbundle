@@ -6,10 +6,11 @@ module JBundle
     
     BUILDABLE_FILES = ['.js']
     
-    attr_reader :name, :src_dir
+    attr_reader :name, :src_dir, :dir
     
     def initialize(name, file_list, src_dir = 'src')
-      @name, @file_list, @src_dir = name.to_s, file_list, src_dir
+      @file_list, @src_dir = file_list, src_dir
+      @name, @dir = parse_name(name)
     end
     
     def buildable?
@@ -56,6 +57,12 @@ module JBundle
         mem << "\n"
         mem
       end
+    end
+    
+    def parse_name(name)
+      n = ::File.basename(name)
+      d = ::File.dirname(name) if name =~ /\//
+      [n,d]
     end
     
   end

@@ -44,11 +44,12 @@ module JBundle
     
     def write
       @version.releaseable.each do |version_dir|
+        versioned_target = ::File.join(@target_dir, version_dir)
         if @compiler.buildable?
-          @out << write_file(@compiler.src, ::File.join(@target_dir, version_dir), @compiler.name)
-          @out << write_file(@compiler.min, ::File.join(@target_dir, version_dir), @compiler.min_name)
+          @out << write_file(@compiler.src, versioned_target, @compiler.dir, @compiler.name)
+          @out << write_file(@compiler.min, versioned_target, @compiler.dir, @compiler.min_name)
         else
-          @out << copy_file(@compiler.src_path, ::File.join(@target_dir, version_dir, @compiler.name))
+          @out << copy_file(@compiler.src_path, versioned_target, @compiler.dir, @compiler.name)
         end
       end
       @out
@@ -56,15 +57,19 @@ module JBundle
     
     protected
     
-    def copy_file(src, target)
+    def copy_file(src, target, subdir, name)
+      sub = ::File.join([target, subdir].compact)
+      FileUtils.mkdir_p sub
+      target = ::File.join(sub, name)
       JBundle.log("Copying to #{target}")
       FileUtils.cp src, target
       target
     end
     
-    def write_file(content, dir_name, file_name)
-      FileUtils.mkdir_p dir_name
-      target = ::File.join(dir_name, file_name)
+    def write_file(content, dir_name, subdir, file_name)
+      sub = ::File.join([dir_name, subdir].compact)
+      FileUtils.mkdir_p sub
+      target = ::File.join(sub, file_name)
       JBundle.log("Writing to #{target}")
       ::File.open(target, 'w') do |f|
         f.write content
