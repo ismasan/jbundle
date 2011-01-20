@@ -2,12 +2,13 @@ module JBundle
   
   class Config
     
-    attr_reader :bundles, :files, :filters
+    attr_reader :bundles, :files, :filters, :after_write_blocks
     
     def initialize
       @bundles = []
       @files = []
       @filters = []
+      @after_write_blocks = []
     end
     
     def version(v = nil)
@@ -41,6 +42,10 @@ module JBundle
     
     def filter(&block)
       filters << block
+    end
+    
+    def after_write(&block)
+      after_write_blocks << block
     end
     
     def bundles_and_files

@@ -34,9 +34,11 @@ module JBundle
     end
     
     def write!
-      output.map do |compiler|
+      out = output.map do |compiler|
         Writer.new(compiler, config.version, config.target_dir || './dist').write
       end.flatten
+      run_after_write unless config.after_write_blocks.empty?
+      out
     end
     
     def build(name)
@@ -49,6 +51,10 @@ module JBundle
       raise NoJFileError, "You need to define #{file}" unless ::File.exists?(file)
       reset!
       config.instance_eval( ::File.read(file), file )
+    end
+    
+    def run_after_write
+      config.after_write_blocks.each {|block| block.call(config)}
     end
     
   end

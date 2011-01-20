@@ -100,6 +100,21 @@ Then you can bundle everything up with the command line tool
 
     $ jbundle
     
+You can run arbitrary code after writing all versioned files by registering an after_write block in your JFile. The following example copies a .swf file from the src dir to all versioned directories
+
+    after_write do |config|
+
+      config.version.releaseable.each do |version|
+        from = "#{config.src_dir}/foo.swf"
+        to = "#{config.target_dir}/#{version}/foo.swf"
+        puts "copying #{to}"
+        FileUtils.cp(from, to)
+      end
+
+    end
+    
+config.version.releaseble returns an array with with all created versions (ie. ['1.6.1', '1.6'] or just ['1.6.1-pre'] for prereleases).
+    
 ## Pre-releases
 
 If you want a prerelease not to overwrite the previous point release, suffix it with "-pre", as in:

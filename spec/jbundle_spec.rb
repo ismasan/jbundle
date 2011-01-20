@@ -66,6 +66,11 @@ describe "JBundle" do
       File.exist?(DIST + '/1.6/text.min.txt').should be_false
     end
     
+    it 'should have run after_write block' do
+      File.exist?(DIST + '/1.6.1/foo.txt').should be_true
+      File.exist?(DIST + '/1.6/foo.txt').should be_true
+    end
+    
     it 'should return a list of files written' do
       @written_files.should == [
         DIST + '/1.6.1/foo.js',
