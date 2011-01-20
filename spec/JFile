@@ -20,7 +20,7 @@ file 'text.txt'
 
 file 'nested/foo.txt'
 
-# file 'nested/bar.txt' => 'flat_bar.txt'
+file 'nested/foo.txt' => 'flat_foo.txt'
 
 filter do |src, config|
   src.gsub!(/<VERSION>/, config.version.full)

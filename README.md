@@ -114,6 +114,16 @@ You can run arbitrary code after writing all versioned files by registering an a
     end
     
 config.version.releaseble returns an array with with all created versions (ie. ['1.6.1', '1.6'] or just ['1.6.1-pre'] for prereleases).
+
+Files in subdirectories in the src directory will keep the local directory tree, so
+
+    file 'foo/text.txt'
+    
+Ends up as ./dist/1.6/foo/text.txt and ./dist/1.6.1/foo/text.txt
+
+You can also copy to a different file name in the target directory using hash notation
+
+    file 'foo/text.txt' => 'bar.txt'
     
 ## Pre-releases
 

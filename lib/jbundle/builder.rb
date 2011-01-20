@@ -19,7 +19,7 @@ module JBundle
     
     # This only makes sense for one-file objects
     def src_path
-      ::File.join(@src_dir, name)
+      ::File.join(@src_dir, @file_list.original_name)
     end
     
     def src

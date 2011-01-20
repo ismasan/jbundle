@@ -4,10 +4,10 @@ module JBundle
     
     include Enumerable
     
-    attr_reader :name, :licenses
+    attr_reader :name, :original_name, :licenses
 
     def initialize(name)
-      @name = name.to_s
+      @name = @original_name = name.to_s
       @files = []
       @licenses = []
     end
