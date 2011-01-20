@@ -19,5 +19,5 @@ file 'file4.js'
 file 'text.txt'
 
 filter do |src, config|
-  src.gsub!(/<VERSION>/, config.version)
+  src.gsub!(/<VERSION>/, config.version.full)
 end

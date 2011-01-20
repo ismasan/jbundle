@@ -2,7 +2,7 @@ module JBundle
   
   class Config
     
-    attr_reader :bundles, :files, :src_dir, :filters
+    attr_reader :bundles, :files, :filters
     
     def initialize
       @bundles = []
@@ -11,7 +11,7 @@ module JBundle
     end
     
     def version(v = nil)
-      @version = v if v
+      @version = JBundle::Version.new(v) if v
       @version
     end
     

@@ -91,7 +91,7 @@ You can add configuration in a Jfile in the root of your project.
     file 'page.html'
 
     filter do |src, config|
-      src.gsub! /<VERSION>/, config.version
+      src.gsub! /<VERSION>/, config.version.to_s
     end
 
     target_dir 'dist'

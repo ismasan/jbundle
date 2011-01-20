@@ -22,6 +22,10 @@ module JBundle
     def to_s
       full
     end
+    
+    def inspect
+      "[JBundle::Version] #{full}"
+    end
 
     protected
 
@@ -34,7 +38,7 @@ module JBundle
   class Writer
     
     def initialize(compiler, version, target_dir)
-      @compiler, @version, @target_dir = compiler, Version.new(version), target_dir
+      @compiler, @version, @target_dir = compiler, version, target_dir
       @out = []
     end
     

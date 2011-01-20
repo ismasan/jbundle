@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jbundle (0.0.4)
+    jbundle (0.0.5)
       closure-compiler
 
 GEM
