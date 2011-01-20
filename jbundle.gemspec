@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ['Ismael Celis']
   s.email       = ['ismaelct@gmail.com']
   s.homepage    = "http://github.com/ismasan/jbundle"
-  s.summary     = "Writes versioned, bundled and minified javascript files and dependencies"
-  s.description = "Good for releasing javascript libraries composed of many files. Writes files apt for deploying to CDNs."
+  s.description     = "Writes versioned, bundled and minified javascript files and dependencies"
+  s.summary = "Good for releasing javascript libraries composed of many files. Writes files apt for deploying to CDNs."
 
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "jbundle"
