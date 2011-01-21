@@ -8,8 +8,8 @@ module JBundle
     
     attr_reader :name, :src_dir, :dir
     
-    def initialize(name, file_list, src_dir = 'src')
-      @file_list, @src_dir = file_list, src_dir
+    def initialize(name, file_list, config)
+      @config, @file_list, @src_dir = config, file_list, config.src_dir
       @name, @dir = parse_name(name)
     end
     
@@ -23,11 +23,19 @@ module JBundle
     end
     
     def src
-      @src ||= licenses + raw_src
+      @src ||= filter(filtered_licenses + filtered_src, :src)
     end
     
     def min
-      @min ||= licenses + Closure::Compiler.new.compile(raw_src)
+      @min ||= filter(filtered_licenses, :min) + Closure::Compiler.new.compile(filter(filtered_src, :min))
+    end
+    
+    def filtered_licenses
+      @filtered_licenses ||= filter(licenses, :all)
+    end
+    
+    def filtered_src
+      @filtered_src ||= filter(raw_src, :all)
     end
     
     def min_name
@@ -65,6 +73,13 @@ module JBundle
       [n,d]
     end
     
+    def filter(content, mode)
+      @config.filters[mode].each do |filter|
+        content = filter.call(content, @config)
+      end
+      content
+    end
+    
   end
   
   
@@ -82,12 +97,7 @@ module JBundle
     end
     
     def build_one(f)
-      compiler = Compiler.new(f.name, f, @config.src_dir)
-      @config.filters.each do |filter|
-        filter.call(compiler.licenses, @config)
-        filter.call(compiler.raw_src, @config)
-      end
-      compiler
+      Compiler.new(f.name, f, @config)
     end
     
   end

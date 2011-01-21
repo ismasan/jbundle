@@ -23,7 +23,7 @@ Define a set of javascript files to bundle and minify
       
       # Filters can be use for string substitution
       filter do |src, config|
-        src.gsub!(/<VERSION>/, config.version)
+        src.gsub(/<VERSION>/, config.version)
       end
       
       target_dir 'dist'
@@ -73,6 +73,29 @@ You can bundle licenses in bundles. Licenses will not be minified even though th
     end
     
 All defined filters will run on the src for all these cases.
+
+## Filters
+
+You can filter both minified and un-minified source and license content with the filter method
+
+    # Filters can be use for string substitution
+    filter do |src, config|
+      src.gsub(/<VERSION>/, config.version)
+    end
+
+You can declare filters that run on un-minified output only
+
+    filter :src do |src, config|
+      src.gsub(/<SRC_MODE>/, 'full source')
+    end
+
+... And minified output only
+
+    filter :min do |src, config|
+      src.gsub(/<SRC_MODE>/, 'minified source')
+    end
+    
+All filters must return a copy of the source, so use src.gsub instead of src.gsub!
 
 ## Jfile
 

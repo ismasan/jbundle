@@ -7,7 +7,7 @@ module JBundle
     def initialize
       @bundles = []
       @files = []
-      @filters = []
+      @filters = {:all => [], :min => [], :src => []}
       @after_write_blocks = []
     end
     
@@ -40,8 +40,8 @@ module JBundle
       @files << JBundle::File.new(f)
     end
     
-    def filter(&block)
-      filters << block
+    def filter(mode = :all, &block)
+      filters[mode.to_sym] << block
     end
     
     def after_write(&block)

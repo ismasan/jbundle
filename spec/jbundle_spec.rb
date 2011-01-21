@@ -22,7 +22,7 @@ describe "JBundle" do
     
     it 'should build single bundles' do
       JBundle.build('foo.js').src.should == "var VERSION = '1.6.1';\nvar a1 = 1;\nvar a2 = 2;\n"
-      JBundle.build('file4.js').min.should == "var a4=4;\n"
+      JBundle.build('file4.js').min.should == "var a4=4,src_mode=\"min\";\n"
     end
     
     it 'should bundle bundles' do
@@ -32,9 +32,9 @@ describe "JBundle" do
       JBundle.output[0].min.should == "var VERSION=\"1.6.1\",a1=1,a2=2;\n"
     end
     
-    it 'should not minify licenses' do
-      JBundle.build('foo2.js').src.should == "/* Version: 1.6.1\nThis is a license\n-----------------------*/\nvar a3 = 3;\nvar a4 = 4;\n"
-      JBundle.build('foo2.js').min.should == "/* Version: 1.6.1\nThis is a license\n-----------------------*/\nvar a3=3,a4=4;\n"
+    it 'should not minify licenses and run min and src filters' do
+      JBundle.build('foo2.js').src.should == "/* Version: 1.6.1. This is the src version.\nThis is a license\n-----------------------*/\nvar a3 = 3;\nvar a4 = 4;\nvar src_mode = 'src';\n"
+      JBundle.build('foo2.js').min.should == "/* Version: 1.6.1. This is the min version.\nThis is a license\n-----------------------*/\nvar a3=3,a4=4,src_mode=\"min\";\n"
     end
     
   end
