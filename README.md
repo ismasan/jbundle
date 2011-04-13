@@ -98,9 +98,9 @@ You can declare filters that run on un-minified output only
 All filters must return a copy of the source, so use src.gsub instead of src.gsub!
 
 
-## Jfile
+## JFile
 
-You can add configuration in a Jfile in the root of your project.
+You can add configuration in a JFile in the root of your project.
 
     version '1.0.1'
 
