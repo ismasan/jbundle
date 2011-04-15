@@ -34,8 +34,10 @@ module JBundle
     end
     
     def write!
+      _dist = config.target_dir || './dist'
+      clear_current_dist_dir(_dist)
       out = output.map do |compiler|
-        Writer.new(compiler, config.version, config.target_dir || './dist').write
+        Writer.new(compiler, config.version, _dist).write
       end.flatten
       run_after_write unless config.after_write_blocks.empty?
       out
@@ -55,6 +57,12 @@ module JBundle
     
     def run_after_write
       config.after_write_blocks.each {|block| block.call(config)}
+    end
+    
+    def clear_current_dist_dir(dist_dir)
+      config.version.releaseable.each do |version_dir|
+        FileUtils.rm_rf ::File.join(dist_dir, version_dir)
+      end
     end
     
   end

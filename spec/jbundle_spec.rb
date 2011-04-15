@@ -39,10 +39,20 @@ describe "JBundle" do
     
   end
   
+  context 'before writing' do
+    it 'should clear distribution directories before writing' do
+      afile = DIST + '/1.6.1/shouldnotbehere.txt'
+      File.open(afile, 'w+'){|f| f.write('Hi')}
+      File.exists?(afile).should be_true
+      JBundle.write!
+      File.exists?(afile).should be_false
+    end
+  end
+  
   context 'writing' do
     
     before do
-      FileUtils.rm_rf DIST
+      #FileUtils.rm_rf DIST
       @written_files = JBundle.write!
     end
     
