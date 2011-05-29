@@ -38,7 +38,7 @@ module JBundle
       handler.run JBundle::Server.new, {:Port => options[:port]}
     end
     
-    desc 'Print installed JBundle version'
+    desc 'version', 'Print installed JBundle version'
     def version
       puts JBundle::VERSION
     end
