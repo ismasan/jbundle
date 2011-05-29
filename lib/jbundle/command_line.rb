@@ -20,7 +20,6 @@ module JBundle
     desc 'server', 'Start test rack server on port 5555'
     method_option :port, :default => "5555", :aliases => "-p"
     def server
-      require 'jbundle/server'
       require 'rack'
       puts "Starting test server on http://localhost:#{options[:port].inspect}/[:bundle_name].js"
       handler = Rack::Handler.default
