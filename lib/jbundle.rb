@@ -5,6 +5,7 @@ require 'jbundle/bundle'
 require 'jbundle/builder'
 require 'jbundle/writer'
 require 'jbundle/command_line'
+require 'jbundle/version'
 
 module JBundle
   
