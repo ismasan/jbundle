@@ -4,8 +4,11 @@ require 'jbundle/file'
 require 'jbundle/bundle'
 require 'jbundle/builder'
 require 'jbundle/writer'
+require 'jbundle/command_line'
 
 module JBundle
+  
+  JFILE = 'Jfile'
   
   class NoJFileError < StandardError;end
   
