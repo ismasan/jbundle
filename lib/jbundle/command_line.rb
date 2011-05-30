@@ -21,7 +21,12 @@ module JBundle
     method_option :port, :default => "5555", :aliases => "-p"
     def server
       require 'rack'
-      puts "Starting test server on http://localhost:#{options[:port].inspect}/[:bundle_name].js"
+      JBundle.config_from_file(JBundle::JFILE)
+      puts "Starting test server on http://localhost:#{options[:port]}. Available bundles:"
+      JBundle.config.bundles_and_files.each do |f|
+        puts "- /#{f.name}"
+      end
+
       handler = Rack::Handler.default
       downward = false
       ['INT', 'TERM', 'QUIT'].each do |signal|
