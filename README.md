@@ -155,7 +155,19 @@ If you want a prerelease not to overwrite the previous point release, suffix it 
 
     version '1.0.1-pre'
     
+## Test server
 
+JBundle command-line comes with a built-in Rack server that makes it easy to test you JavaScript bundles as you develop them.
+
+    jbundle server
+    
+That serves bundles defined in your JFile in port 5555. For example localhost:5555/foo.js
+
+Learn more about the JBundle command-line with
+
+    jbundle help # all commands
+    jbundle help server # server command options
+    
 ## TODO
 
 - DRY up stuff, better error handling for missing config
