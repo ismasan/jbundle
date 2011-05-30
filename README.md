@@ -1,5 +1,13 @@
 ## JBundle
 
+## Installation
+
+JBundle is a Ruby gem.
+
+    gem install jbundle
+
+## Usage
+
 Define a set of javascript files to bundle and minify
 
     JBundle.config do
