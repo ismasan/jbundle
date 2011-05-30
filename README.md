@@ -161,7 +161,10 @@ JBundle command-line comes with a built-in Rack server that makes it easy to tes
 
     jbundle server
     
-That serves bundles defined in your JFile in port 5555. For example localhost:5555/foo.js
+    Starting test server on http://localhost:5555. Available bundles:
+    - /foo.js
+    
+That serves bundles defined in your JFile in port 5555. Pass the -p option for a different port.
 
 Learn more about the JBundle command-line with
 
