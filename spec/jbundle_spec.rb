@@ -1,8 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 require 'fileutils'
 
-DIST = File.dirname(__FILE__)+'/dist'
-
 describe "JBundle" do
   
   before do
