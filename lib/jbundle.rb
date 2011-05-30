@@ -13,6 +13,7 @@ module JBundle
   JFILE = 'Jfile'
   
   class NoJFileError < StandardError;end
+  class NoBundleError < StandardError;end
   
   class << self
     
@@ -50,7 +51,7 @@ module JBundle
     
     def build(name)
       found = config.bundles_and_files.detect {|f| f.name == name}
-      raise "No bundle or file found with name #{name}" unless found
+      raise NoBundleError, "No bundle or file found with name #{name}" unless found
       Builder.new(config).build_one found
     end
     
