@@ -185,7 +185,7 @@ Learn more about the JBundle command-line with
 
 The command line has a quick generator that creates stub files for your library code, an example file and tests using Qunit.   
 
-    jsbundle init my_library.js
+    jbundle init my_library.js
     
     create  JFile
           create  src
