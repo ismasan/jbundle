@@ -1,0 +1,30 @@
+# The JFile defines your JavaScript library and it's dependencies.
+# Read more on https://github.com/ismasan/jbundle/blob/master/README.md
+#
+# Version.
+# jbundle command will put source and minified versions in 
+# - dist/0.0.1/
+# - dist/0.0/
+#
+version '0.0.1'
+
+# put your development files here
+#
+src_dir './src'
+
+# Define one or more JavaScript bundles
+#
+bundle '<%= @name %>' do
+  license 'license.txt'
+  file '<%= @name %>'
+end
+
+# Optional post-bundling filter, for example for string substitution
+#
+filter do |src, config|
+  src.gsub /<VERSION>/, config.version.to_s
+end
+
+# your packaged, versioned releases go here
+#
+target_dir 'dist'

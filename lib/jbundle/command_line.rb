@@ -2,6 +2,9 @@ require 'thor'
 module JBundle
   
   class CommandLine < Thor
+    
+    include Thor::Actions
+    
     default_task :bundle
     
     map "s" => :server
@@ -46,6 +49,40 @@ module JBundle
     def version
       puts JBundle::VERSION
     end
+    
+    def self.source_root
+      ::File.dirname(__FILE__)
+    end
+    
+    AFTER_INIT_MESSAGE = %(
+Done. Try it!
+    
+    jbundle s
+    open test/index.html
+    
+Then package your work
 
+    jsbundle
+    )
+    
+    desc 'init', 'Create example JFile and test stubs'
+    method_option :tests, :default => 'qunit', :aliases => '-t'
+    def init(name)
+      @name = name
+      template('templates/jfile.tt', "JFile")
+      empty_directory 'src'
+      template('templates/license.tt', "src/license.txt")
+      template('templates/lib.tt', "src/#{name}")
+      if options[:tests] == 'qunit'
+        empty_directory 'test'
+        template('templates/index.tt', "test/index.html")
+        template('templates/tests.tt', "test/tests.js")
+        copy_file 'templates/qunit.tt', 'test/qunit.js'
+        copy_file 'templates/qunit_css.tt', 'test/qunit.css'
+      end
+      empty_directory 'dist'
+      say AFTER_INIT_MESSAGE, :yellow
+    end
+    
   end
 end

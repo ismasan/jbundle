@@ -1,0 +1,14 @@
+var <%= @name.sub('.js', '').capitalize %> = (function () {
+
+  function klass (name) {
+    this.name = name;
+  }
+  
+  klass.prototype = {
+    title: function () {
+      return 'Mr. ' + this.name;
+    }
+  }
+  
+  return klass;
+})();

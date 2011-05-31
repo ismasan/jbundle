@@ -180,7 +180,32 @@ Learn more about the JBundle command-line with
 
     jbundle help # all commands
     jbundle help server # server command options
+
+## Generator
+
+The command line has a quick generator that creates stub files for your library code, an example file and tests using Qunit.   
+
+    jsbundle init my_library.js
     
+    create  JFile
+          create  src
+          create  src/license.txt
+          create  src/my_library.js
+          create  test
+          create  test/index.html
+          create  test/tests.js
+          create  test/qunit.js
+          create  test/qunit.css
+          create  dist
+    Done. Try it!
+
+        jbundle s
+        open test/index.html
+        
+At the moment only Qunit is supported in the generator but others (like Jasmine) would be easy to add.
+
+If you don't need the test stubs run the command with --no-tests
+
 ## TODO
 
 - DRY up stuff, better error handling for missing config
