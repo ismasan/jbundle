@@ -1,5 +1,7 @@
 ## JBundle
 
+Ruby utility to help in developing JavaScript libraries. Lets you declare JavaScript libraries composed of multiple files. Easily bundle and minify your JavaScript bundles when you're done. Includes a Rack server for easy testing.
+
 ## Installation
 
 JBundle is a Ruby gem.
