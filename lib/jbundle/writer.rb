@@ -48,7 +48,6 @@ module JBundle
     
     def write
       release_targets do |versioned_target, version_string|
-        puts versioned_target.inspect
         if @compiler.buildable? # versionable JS file
           @out << write_file(
             @compiler.src, 
