@@ -84,7 +84,7 @@ You can bundle licenses in bundles. Licenses will not be minified even though th
     
 All defined filters will run on the src for all these cases.
 
-## Versiones file names, jQuery style
+## Versioned file names, jQuery style
 
 All of the examples above bundle to versioned directories in the "dist" directory. If you want jQuery-style file names, where there's no version directory and the version number is part of the file name, you can do this:
 
