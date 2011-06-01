@@ -1,14 +1,14 @@
-var <%= @name.sub('.js', '').capitalize %> = (function () {
+var <%= @klass_name %> = (function () {
 
-  function klass (name) {
+  function <%= @klass_name %> (name) {
     this.name = name;
   }
   
-  klass.prototype = {
+  <%= @klass_name %>.prototype = {
     title: function () {
       return 'Mr. ' + this.name;
     }
   }
   
-  return klass;
+  return <%= @klass_name %>;
 })();

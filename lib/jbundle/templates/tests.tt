@@ -1,6 +1,6 @@
 module('General');
 
 test('it should pass test', function () {
-  var obj = new <%= @name.sub('.js', '').capitalize %>('John Doe');
+  var obj = new <%= @klass_name %>('John Doe');
   equal('Mr. John Doe', obj.title())
 });

@@ -69,6 +69,8 @@ Then package your work
     method_option :tests, :default => 'qunit', :aliases => '-t'
     def init(name)
       @name = name
+      @klass_name = name.sub('.js', '').split(/[^a-z0-9]/i).map{|w| w.capitalize}.join
+      
       template('templates/jfile.tt', "JFile")
       empty_directory 'src'
       template('templates/license.tt', "src/license.txt")
