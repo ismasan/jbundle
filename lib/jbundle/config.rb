@@ -9,21 +9,27 @@ module JBundle
       @files = []
       @filters = {:all => [], :min => [], :src => []}
       @after_write_blocks = []
+      @version_options = {:directory => true}
     end
     
-    def version(v = nil)
+    def versioned_directories?
+      @version_options[:directory]
+    end
+    
+    def version(v = nil, opts = {})
+      @version_options.merge! opts
       @version = JBundle::Version.new(v) if v
       @version
     end
     
     def src_dir(dir = nil)
       @src_dir = dir if dir
-      @src_dir
+      @src_dir || './'
     end
     
     def target_dir(dir = nil)
       @target_dir = dir if dir
-      @target_dir
+      @target_dir || './'
     end
     
     def bundle(name, &block)

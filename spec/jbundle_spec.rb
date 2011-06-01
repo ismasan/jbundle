@@ -120,3 +120,49 @@ describe "JBundle" do
   end
   
 end
+
+describe 'JBundle', 'with no versioned directory and version in bundle name' do
+  
+  before do
+    JBundle.reset!.config do
+      version '0.0.1', :directory => nil
+      
+      src_dir ::File.dirname(__FILE__) + '/test_src'
+      target_dir DIST
+      
+      bundle 'foo-[:version].js' do
+        license 'license.txt'
+        file 'file3.js'
+      end
+      
+      file 'file3.js' => 'bar-[:version].js'
+    end
+    
+    @written_files = JBundle.write!
+  end
+  
+  it 'should create versioned files in dist dir, with no versioned directories' do
+    @written_files.should == [
+      DIST + '/foo-0.0.1.js',
+      DIST + '/foo-0.0.1.min.js',
+      DIST + '/foo-0.0.js',
+      DIST + '/foo-0.0.min.js',
+      DIST + '/bar-0.0.1.js',
+      DIST + '/bar-0.0.1.min.js',
+      DIST + '/bar-0.0.js',
+      DIST + '/bar-0.0.min.js'
+    ]
+  end
+  
+  it 'should create versioned files with no version directory' do
+    File.exist?(DIST + '/foo-0.0.1.js').should be_true
+    File.exist?(DIST + '/foo-0.0.1.min.js').should be_true
+    File.exist?(DIST + '/foo-0.0.js').should be_true
+    File.exist?(DIST + '/foo-0.0.min.js').should be_true
+    File.exist?(DIST + '/bar-0.0.1.js').should be_true
+    File.exist?(DIST + '/bar-0.0.1.min.js').should be_true
+    File.exist?(DIST + '/bar-0.0.js').should be_true
+    File.exist?(DIST + '/bar-0.0.min.js').should be_true
+  end
+  
+end

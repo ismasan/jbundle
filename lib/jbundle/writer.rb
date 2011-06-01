@@ -36,26 +36,59 @@ module JBundle
   end
   
   class Writer
+    # Interpolation tokens
+    TOKENS = {
+      :version  => '[:version]'
+    }
     
-    def initialize(compiler, version, target_dir)
-      @compiler, @version, @target_dir = compiler, version, target_dir
+    def initialize(compiler, config, target_dir)
+      @compiler, @config, @version, @target_dir = compiler, config, config.version, target_dir
       @out = []
     end
     
     def write
-      @version.releaseable.each do |version_dir|
-        versioned_target = ::File.join(@target_dir, version_dir)
-        if @compiler.buildable?
-          @out << write_file(@compiler.src, versioned_target, @compiler.dir, @compiler.name)
-          @out << write_file(@compiler.min, versioned_target, @compiler.dir, @compiler.min_name)
-        else
-          @out << copy_file(@compiler.src_path, versioned_target, @compiler.dir, @compiler.name)
+      release_targets do |versioned_target, version_string|
+        puts versioned_target.inspect
+        if @compiler.buildable? # versionable JS file
+          @out << write_file(
+            @compiler.src, 
+            versioned_target, 
+            @compiler.dir, 
+            interpolate(@compiler.name, TOKENS[:version] => version_string)
+          )
+          @out << write_file(
+            @compiler.min, 
+            versioned_target, 
+            @compiler.dir, 
+            interpolate(@compiler.min_name, TOKENS[:version] => version_string)
+          )
+        else # Other files (HTML, SWF, etc)
+          @out << copy_file(
+            @compiler.src_path, 
+            versioned_target, 
+            @compiler.dir, 
+            interpolate(@compiler.name, TOKENS[:version] => version_string)
+          )
         end
       end
       @out
     end
     
     protected
+    
+    def interpolate(string, tokens)
+      tokens.each do |key, value|
+        string = string.gsub(key, value)
+      end
+      string
+    end
+    
+    def release_targets(&block)
+      @version.releaseable.each do |version_string|
+        versioned_target = @config.versioned_directories? ? ::File.join(@target_dir, version_string) : @target_dir
+        yield versioned_target, version_string
+      end
+    end
     
     def copy_file(src, target, subdir, name)
       sub = ::File.join([target, subdir].compact)

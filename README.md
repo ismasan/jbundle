@@ -64,7 +64,7 @@ This will write the following files:
     'dist/1.6/file4.min.js'
     'dist/1.6/text.txt'
     
-Or you can build a single bundle/file dinamically (ie. for testing, or for serving and caching dinamically)
+Or you can build a single bundle/file dynamically (ie. for testing, or for serving and caching on first serve)
     
     JBundle.config_from_file './JFile'
     JBundle.build('foo.js').src
@@ -84,6 +84,29 @@ You can bundle licenses in bundles. Licenses will not be minified even though th
     
 All defined filters will run on the src for all these cases.
 
+## Versiones file names, jQuery style
+
+All of the examples above bundle to versioned directories in the "dist" directory. If you want jQuery-style file names, where there's no version directory and the version number is part of the file name, you can do this:
+
+    version '1.6.1', :directory => false
+    
+    bundle 'foo2-[:version].js' do
+      license 'license.txt'
+      file 'file3.js'
+      file 'file4.js'
+    end
+    
+That will produce:
+  
+    'dist/foo-1.6.1.js'
+    'dist/foo-1.6.1.min.js'
+    'dist/foo-1.6.js'
+    'dist/foo-1.6.min.js'
+    
+That works for single-file libraries too:
+
+    file 'jquery.lightbox.js' => 'jquery.lightbox-[:version].js'
+    
 ## Filters
 
 You can filter both minified and un-minified source and license content with the filter method

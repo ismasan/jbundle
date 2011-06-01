@@ -43,7 +43,7 @@ module JBundle
       _dist = config.target_dir || './dist'
       clear_current_dist_dir(_dist)
       out = output.map do |compiler|
-        Writer.new(compiler, config.version, _dist).write
+        Writer.new(compiler, config, _dist).write
       end.flatten
       run_after_write unless config.after_write_blocks.empty?
       out
