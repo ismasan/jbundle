@@ -29,7 +29,7 @@ module JBundle
       JBundle.config_from_file(options[:jfile])
       say "Starting test server on http://localhost:#{options[:port]}. Available bundles:", :yellow
       JBundle.config.bundles_and_files.each do |f|
-        say "- /#{f.name}", :green
+        say "- /#{f.original_name}", :green
       end
 
       handler = Rack::Handler.default
