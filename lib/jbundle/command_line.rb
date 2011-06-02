@@ -11,9 +11,10 @@ module JBundle
     map "-v" => :version
 
     desc "bundle", "Minify and bundle bundle declarations into dist directory"
+    method_option :jfile, :default => JBundle::JFILE, :aliases => "-j"
     def bundle
       begin
-        JBundle.config_from_file(JBundle::JFILE)
+        JBundle.config_from_file(options[:jfile])
         JBundle.write!
       rescue JBundle::NoJFileError => boom
         puts boom.message
@@ -22,12 +23,13 @@ module JBundle
     
     desc 'server', 'Start test rack server on port 5555'
     method_option :port, :default => "5555", :aliases => "-p"
+    method_option :jfile, :default => JBundle::JFILE, :aliases => "-j"
     def server
       require 'rack'
-      JBundle.config_from_file(JBundle::JFILE)
-      puts "Starting test server on http://localhost:#{options[:port]}. Available bundles:"
+      JBundle.config_from_file(options[:jfile])
+      say "Starting test server on http://localhost:#{options[:port]}. Available bundles:", :yellow
       JBundle.config.bundles_and_files.each do |f|
-        puts "- /#{f.name}"
+        say "- /#{f.name}", :green
       end
 
       handler = Rack::Handler.default
@@ -38,7 +40,7 @@ module JBundle
           downward = true
           handler.shutdown if handler.respond_to?(:shutdown)
           Process.wait rescue nil
-          puts 'Shutting down test server'
+          say 'Shutting down test server', :yellow
           exit!
         end
       end
@@ -47,7 +49,7 @@ module JBundle
     
     desc 'version', 'Print installed JBundle version'
     def version
-      puts JBundle::VERSION
+      say JBundle::VERSION, :green
     end
     
     def self.source_root

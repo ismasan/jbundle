@@ -76,3 +76,5 @@ module JBundle
   self.logger = lambda {|msg| puts "#{msg}\n"}
   
 end
+
+require 'jbundle/command_line'
