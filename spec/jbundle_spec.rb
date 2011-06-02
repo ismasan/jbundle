@@ -141,6 +141,10 @@ describe 'JBundle', 'with no versioned directory and version in bundle name' do
     @written_files = JBundle.write!
   end
   
+  it 'should find by original name, not the interpolated version' do
+    JBundle.build('foo.js').should be_kind_of(JBundle::Compiler)
+  end
+  
   it 'should create versioned files in dist dir, with no versioned directories' do
     @written_files.should == [
       DIST + '/foo-0.0.1.js',
