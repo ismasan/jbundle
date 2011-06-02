@@ -130,7 +130,7 @@ describe 'JBundle', 'with no versioned directory and version in bundle name' do
       src_dir ::File.dirname(__FILE__) + '/test_src'
       target_dir DIST
       
-      bundle 'foo-[:version].js' do
+      bundle 'foo.js' => 'foo-[:version].js' do
         license 'license.txt'
         file 'file3.js'
       end

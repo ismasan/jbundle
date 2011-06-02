@@ -32,13 +32,13 @@ module JBundle
       @target_dir || './'
     end
     
-    def bundle(name, &block)
-      name = name.to_sym
+    def bundle(names, &block)
+      name = (names.is_a?(Hash) ? names.keys.first : names).to_sym
       if !b = @bundles.detect{|a| a.name == name}
-        b = Bundle.new(name)
+        b = Bundle.new(names)
         @bundles << b
       end
-      b.instance_eval &block
+      b.instance_eval &block if block_given?
       b
     end
     

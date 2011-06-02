@@ -3,11 +3,12 @@ module JBundle
   class Bundle
     
     include Enumerable
+    include JBundle::BundleUtils
     
     attr_reader :name, :original_name, :licenses
 
     def initialize(name)
-      @name = @original_name = name.to_s
+      @original_name, @name = parse_name(name)
       @files = []
       @licenses = []
     end

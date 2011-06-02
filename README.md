@@ -90,7 +90,7 @@ All of the examples above bundle to versioned directories in the "dist" director
 
     version '1.6.1', :directory => false
     
-    bundle 'foo2-[:version].js' do
+    bundle 'foo.js' => 'foo2-[:version].js' do
       license 'license.txt'
       file 'file3.js'
       file 'file4.js'

@@ -1,10 +1,10 @@
 require 'fileutils'
 require 'jbundle/config'
+require 'jbundle/bundle_utils'
 require 'jbundle/file'
 require 'jbundle/bundle'
 require 'jbundle/builder'
 require 'jbundle/writer'
-require 'jbundle/command_line'
 require 'jbundle/server'
 require 'jbundle/version'
 
