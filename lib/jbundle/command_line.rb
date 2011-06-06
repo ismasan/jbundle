@@ -65,7 +65,7 @@ Done. Try it!
 Then package your work
 
     jsbundle
-    )
+)
     
     desc 'init', 'Create example JFile and test stubs'
     method_option :tests, :default => 'qunit', :aliases => '-t'
