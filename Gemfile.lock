@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jbundle (0.1.1)
+    jbundle (0.1.2)
       closure-compiler
       rack
       thor

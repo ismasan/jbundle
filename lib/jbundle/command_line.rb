@@ -25,11 +25,10 @@ module JBundle
     method_option :port, :default => "5555", :aliases => "-p"
     method_option :jfile, :default => JBundle::JFILE, :aliases => "-j"
     def server
-      require 'rack'
       JBundle.config_from_file(options[:jfile])
       say "Starting test server on http://localhost:#{options[:port]}. Available bundles:", :yellow
       JBundle.config.bundles_and_files.each do |f|
-        say "- /#{f.original_name}", :green
+        say "- /#{f.original_name} ==> /#{f.name}", :green
       end
 
       handler = Rack::Handler.default

@@ -50,9 +50,13 @@ module JBundle
     end
     
     def build(name)
-      found = config.bundles_and_files.detect {|f| f.original_name == name}
+      Builder.new(config).build_one find(name)
+    end
+    
+    def find(name)
+      found = config.bundles_and_files.detect {|f| f.original_name == name || f.name == name}
       raise NoBundleError, "No bundle or file found with name #{name}" unless found
-      Builder.new(config).build_one found
+      found
     end
     
     def config_from_file(file)

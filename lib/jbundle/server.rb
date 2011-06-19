@@ -1,3 +1,4 @@
+require 'rack'
 module JBundle
   
   class Server
@@ -13,7 +14,9 @@ module JBundle
       bundle_name = env['PATH_INFO'].sub('/', '')
       begin
         JBundle.config_from_file(@jfile)
-        [200, {'Content-Type' => 'application/x-javascript'}, [JBundle.build(bundle_name).src]]
+        compiler = JBundle.build(bundle_name)
+        body = compiler.buildable? ? compiler.src : compiler.raw_src
+        [200, {'Content-Type' => ::Rack::Mime.mime_type(compiler.ext)}, [body]]
       rescue NoBundleError => boom
         p = bundle_name == '' ? '[bundle_name].js' : bundle_name
         [404, {'Content-Type' => 'text/plain'}, ["No bundle defined. Try defining /#{p} in your JFile"]]

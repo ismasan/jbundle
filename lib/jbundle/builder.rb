@@ -13,8 +13,12 @@ module JBundle
       @name, @dir = parse_name(name)
     end
     
+    def ext
+      @ext ||= ::File.extname(name)
+    end
+    
     def buildable?
-      BUILDABLE_FILES.include?(::File.extname(name))
+      BUILDABLE_FILES.include?(ext)
     end
     
     # This only makes sense for one-file objects
