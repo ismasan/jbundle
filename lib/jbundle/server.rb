@@ -11,7 +11,7 @@ module JBundle
     # Configure JBundle on every request. 
     # Expensive but allows for reloading changes to JFile
     def call(env)
-      bundle_name = env['PATH_INFO'].sub('/', '')
+      bundle_name = env['PATH_INFO'].split('/').last
       begin
         JBundle.config_from_file(@jfile)
         compiler = JBundle.build(bundle_name)
