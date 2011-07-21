@@ -11,35 +11,35 @@ JBundle is a Ruby gem.
 ## Usage
 
 Define a set of javascript files to bundle and minify
+``` ruby
+JBundle.config do
+  version '1.6.1'
 
-    JBundle.config do
-      version '1.6.1'
+  src_dir File.dirname(__FILE__) + '/src'
 
-      src_dir File.dirname(__FILE__) + '/src'
+  bundle 'foo.js' do
+    file 'file1.js'
+    file 'file2.js'
+  end
 
-      bundle 'foo.js' do
-        file 'file1.js'
-        file 'file2.js'
-      end
+  bundle 'foo2.js' do
+    file 'file3.js'
+    file 'file4.js'
+  end
 
-      bundle 'foo2.js' do
-        file 'file3.js'
-        file 'file4.js'
-      end
+  file 'file4.js'
 
-      file 'file4.js'
+  file 'text.txt'
+  
+  # Filters can be use for string substitution
+  filter do |src, config|
+    src.gsub(/<VERSION>/, config.version)
+  end
+  
+  target_dir 'dist'
 
-      file 'text.txt'
-      
-      # Filters can be use for string substitution
-      filter do |src, config|
-        src.gsub(/<VERSION>/, config.version)
-      end
-      
-      target_dir 'dist'
-
-    end
-    
+end
+```
 Then write them to the configured target directory
 
     JBundle.write!
