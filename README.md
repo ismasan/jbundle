@@ -11,7 +11,7 @@ JBundle is a Ruby gem.
 ## Usage
 
 Define a set of javascript files to bundle and minify
-``` ruby
+```ruby
 JBundle.config do
   version '1.6.1'
 
