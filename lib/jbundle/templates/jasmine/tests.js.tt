@@ -1,0 +1,12 @@
+describe("<%= @klass_name %>", function() {
+  var obj;
+
+  beforeEach(function() {
+    obj = new <%= @klass_name %>('John Doe');
+  });
+
+  it("should pass test", function() {
+    expect(obj.title()).toEqual("Mr. John Doe");
+  });
+
+});

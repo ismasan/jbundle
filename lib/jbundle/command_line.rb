@@ -79,6 +79,8 @@ Then package your work
       template('templates/lib.tt', "src/#{name}")
       case options[:tests]
       when 'qunit' then init_qunit
+      when 'jasmine' then init_jasmine
+      else puts "Don't know how to initalize tests for #{options[:tests].inspect}"
       end
       empty_directory 'dist'
       say AFTER_INIT_MESSAGE, :yellow
@@ -92,6 +94,21 @@ Then package your work
       template 'templates/qunit/tests.js.tt', 'test/tests.js'
       copy_file 'templates/qunit/qunit.js', 'test/qunit.js'
       copy_file 'templates/qunit/qunit.css', 'test/qunit.css'
+    end
+    
+    def init_jasmine
+      empty_directory 'test'
+      template 'templates/jasmine/index.html.tt', 'test/index.html'
+      template 'templates/jasmine/tests.js.tt', 'test/tests.js'
+      [
+        'spec_helper.js',
+        'jasmine_favicon.png',
+        'jasmine.js',
+        'jasmine.css',
+        'jasmine-html.js'
+      ].each do |file|
+        template "templates/jasmine/#{file}", "test/#{file}"
+      end
     end
     
   end
