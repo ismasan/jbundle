@@ -227,9 +227,11 @@ The command line has a quick generator that creates stub files for your library 
         jbundle s
         open test/index.html
         
-At the moment only Qunit is supported in the generator but others (like Jasmine) would be easy to add.
+At the moment only Qunit (default) and Jasmine are supported in the generator but others would be easy to add.
 
-If you don't need the test stubs run the command with --no-tests
+To generate jasmine test stubs, run the command with `-t jasmine`
+
+If you don't need the test stubs run the command with `--no-tests`
 
 ## TODO
 
