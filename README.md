@@ -200,7 +200,11 @@ JBundle command-line comes with a built-in Rack server that makes it easy to tes
     - /foo.js
     Run tests on ./tests/index.html
     
-That serves bundles defined in your JFile in port 5555. Pass the -p option for a different port.
+That serves JavaScript bundles defined in your JFile in port 5555. Pass the -p option for a different port. ./tests/index.html runs your tests (Qunit by default) in the ./tests directory
+
+You can chose what testing framework to use when initialising the project. Options are qunit and jasmine.
+
+    jbundle init foo.js --tests=jasmine
 
 Learn more about the JBundle command-line with
 
