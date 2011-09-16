@@ -64,7 +64,7 @@ Done. Try it!
     
 Then package your work
 
-    jsbundle
+    jbundle
 )
     
     desc 'init', 'Create example JFile and test stubs. Usage: jbundle init foo.js'
