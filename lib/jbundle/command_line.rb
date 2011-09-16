@@ -77,15 +77,21 @@ Then package your work
       empty_directory 'src'
       template('templates/license.tt', "src/license.txt")
       template('templates/lib.tt', "src/#{name}")
-      if options[:tests] == 'qunit'
-        empty_directory 'test'
-        template('templates/index.tt', "test/index.html")
-        template('templates/tests.tt', "test/tests.js")
-        copy_file 'templates/qunit.tt', 'test/qunit.js'
-        copy_file 'templates/qunit_css.tt', 'test/qunit.css'
+      case options[:tests]
+      when 'qunit' then init_qunit
       end
       empty_directory 'dist'
       say AFTER_INIT_MESSAGE, :yellow
+    end
+    
+    private
+    
+    def init_qunit
+      empty_directory 'test'
+      template 'templates/qunit/index.html.tt', 'test/index.html'
+      template 'templates/qunit/tests.js.tt', 'test/tests.js'
+      copy_file 'templates/qunit/qunit.js', 'test/qunit.js'
+      copy_file 'templates/qunit/qunit.css', 'test/qunit.css'
     end
     
   end
