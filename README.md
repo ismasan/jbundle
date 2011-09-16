@@ -198,6 +198,7 @@ JBundle command-line comes with a built-in Rack server that makes it easy to tes
     
     Starting test server on http://localhost:5555. Available bundles:
     - /foo.js
+    Run tests on ./tests/index.html
     
 That serves bundles defined in your JFile in port 5555. Pass the -p option for a different port.
 

@@ -30,6 +30,7 @@ module JBundle
       JBundle.config.bundles_and_files.each do |f|
         say "- /#{f.original_name} ==> /#{f.name}", :green
       end
+      say "Run tests on ./tests/index.html"
 
       handler = Rack::Handler.default
       downward = false
