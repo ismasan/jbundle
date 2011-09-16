@@ -67,37 +67,45 @@ This will write the following files:
     'dist/1.6/text.txt'
     
 Or you can build a single bundle/file dynamically (ie. for testing, or for serving and caching on first serve)
-    
-    JBundle.config_from_file './JFile'
-    JBundle.build('foo.js').src
-    
+
+```ruby
+JBundle.config_from_file './JFile'
+JBundle.build('foo.js').src
+```
+
 Or
 
-    JBundle.config_from_file './JFile'
-    JBundle.build('foo.js').min
-    
+```ruby
+JBundle.config_from_file './JFile'
+JBundle.build('foo.js').min
+```
+
 You can bundle licenses in bundles. Licenses will not be minified even though they end up being part of minified files
 
-    bundle 'foo2.js' do
-      license 'license.txt'
-      file 'file3.js'
-      file 'file4.js'
-    end
-    
+```ruby
+bundle 'foo2.js' do
+  license 'license.txt'
+  file 'file3.js'
+  file 'file4.js'
+end
+```
+
 All defined filters will run on the src for all these cases.
 
 ## Versioned file names, jQuery style
 
 All of the examples above bundle to versioned directories in the "dist" directory. If you want jQuery-style file names, where there's no version directory and the version number is part of the file name, you can do this:
 
-    version '1.6.1', :directory => false
+```ruby
+version '1.6.1', :directory => false
     
-    bundle 'foo.js' => 'foo2-[:version].js' do
-      license 'license.txt'
-      file 'file3.js'
-      file 'file4.js'
-    end
-    
+bundle 'foo.js' => 'foo2-[:version].js' do
+  license 'license.txt'
+  file 'file3.js'
+  file 'file4.js'
+end
+```
+
 That will produce:
   
     'dist/foo-1.6.1.js'
@@ -107,29 +115,37 @@ That will produce:
     
 That works for single-file libraries too:
 
-    file 'jquery.lightbox.js' => 'jquery.lightbox-[:version].js'
-    
+```ruby
+file 'jquery.lightbox.js' => 'jquery.lightbox-[:version].js'
+```
+
 ## Filters
 
 You can filter both minified and un-minified source and license content with the filter method
 
-    # Filters can be use for string substitution
-    filter do |src, config|
-      src.gsub(/<VERSION>/, config.version)
-    end
+```ruby
+# Filters can be use for string substitution
+filter do |src, config|
+  src.gsub(/<VERSION>/, config.version)
+end
+```
 
 You can declare filters that run on un-minified output only
 
-    filter :src do |src, config|
-      src.gsub(/<SRC_MODE>/, 'full source')
-    end
+```ruby
+filter :src do |src, config|
+  src.gsub(/<SRC_MODE>/, 'full source')
+end
+```
 
 ... And minified output only
 
-    filter :min do |src, config|
-      src.gsub(/<SRC_MODE>/, 'minified source')
-    end
-    
+```ruby
+filter :min do |src, config|
+  src.gsub(/<SRC_MODE>/, 'minified source')
+end
+```
+
 All filters must return a copy of the source, so use src.gsub instead of src.gsub!
 
 
@@ -137,59 +153,69 @@ All filters must return a copy of the source, so use src.gsub instead of src.gsu
 
 You can add configuration in a JFile in the root of your project.
 
-    version '1.0.1'
+```ruby
+version '1.0.1'
 
-    src_dir './'
+src_dir './'
 
-    bundle 'foo.js' do
-      license 'license.txt'
-      file 'file1.js'
-      file 'file2.js'
-    end
+bundle 'foo.js' do
+  license 'license.txt'
+  file 'file1.js'
+  file 'file2.js'
+end
 
-    file 'page.html'
+file 'page.html'
 
-    filter do |src, config|
-      src.gsub! /<VERSION>/, config.version.to_s
-    end
+filter do |src, config|
+  src.gsub! /<VERSION>/, config.version.to_s
+end
 
-    target_dir 'dist'
-    
+target_dir 'dist'
+```
+
 Then you can bundle everything up with the command line tool
 
     $ jbundle
     
 You can run arbitrary code after writing all versioned files by registering an after_write block in your JFile. The following example copies a .swf file from the src dir to all versioned directories
 
-    after_write do |config|
+```ruby
+after_write do |config|
 
-      config.version.releaseable.each do |version|
-        from = "#{config.src_dir}/foo.swf"
-        to = "#{config.target_dir}/#{version}/foo.swf"
-        puts "copying #{to}"
-        FileUtils.cp(from, to)
-      end
+  config.version.releaseable.each do |version|
+    from = "#{config.src_dir}/foo.swf"
+    to = "#{config.target_dir}/#{version}/foo.swf"
+    puts "copying #{to}"
+    FileUtils.cp(from, to)
+  end
 
-    end
-    
+end
+```
+
 config.version.releaseble returns an array with with all created versions (ie. ['1.6.1', '1.6'] or just ['1.6.1-pre'] for prereleases).
 
 Files in subdirectories in the src directory will keep the local directory tree, so
 
-    file 'foo/text.txt'
-    
+```ruby
+file 'foo/text.txt'
+```
+
 Ends up as ./dist/1.6/foo/text.txt and ./dist/1.6.1/foo/text.txt
 
 You can also copy to a different file name in the target directory using hash notation
 
-    file 'foo/text.txt' => 'bar.txt'
-    
+```ruby
+file 'foo/text.txt' => 'bar.txt'
+```
+
 ## Pre-releases
 
 If you want a prerelease not to overwrite the previous point release, suffix it with "-pre", as in:
 
-    version '1.0.1-pre'
-    
+```ruby
+version '1.0.1-pre'
+```
+
 ## Test server
 
 JBundle command-line comes with a built-in Rack server that makes it easy to test you JavaScript bundles as you develop them.
