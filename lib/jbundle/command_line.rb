@@ -66,7 +66,7 @@ Then package your work
     jsbundle
 )
     
-    desc 'init', 'Create example JFile and test stubs'
+    desc 'init', 'Create example JFile and test stubs. Usage: jbundle init foo.js'
     method_option :tests, :default => 'qunit', :aliases => '-t'
     def init(name)
       @name = name
