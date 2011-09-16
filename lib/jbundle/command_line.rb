@@ -68,7 +68,8 @@ Then package your work
     
     desc 'init', 'Create example JFile and test stubs. Usage: jbundle init foo.js'
     method_option :tests, :default => 'qunit', :aliases => '-t'
-    def init(name)
+    def init(name = nil)
+      name = ask("Name of your library (ie. foo.js, awesome.js, etc.):") unless name
       @name = name
       @klass_name = name.sub('.js', '').split(/[^a-z0-9]/i).map{|w| w.capitalize}.join
       
