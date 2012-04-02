@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Jbundle : Bundle and minify JavaScript projects" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jbundle</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ismasan/jbundle">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Jbundle</h1>
+          <h2 id="project_tagline">Bundle and minify JavaScript projects</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/ismasan/jbundle/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/ismasan/jbundle/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>JBundle</h2>
+
+<p>Ruby utility to help in developing JavaScript libraries. Lets you declare JavaScript libraries composed of multiple files. Easily bundle and minify your JavaScript bundles when you're done. Includes a Rack server for easy testing.</p>
+
+<h2>Installation</h2>
+
+<p>JBundle is a Ruby gem.</p>
+
+<pre><code>gem install jbundle
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>Define a set of javascript files to bundle and minify</p>
+
+<div class="highlight">
+<pre><span class="no">JBundle</span><span class="o">.</span><span class="n">config</span> <span class="k">do</span>
+  <span class="n">version</span> <span class="s1">'1.6.1'</span>
+
+  <span class="n">src_dir</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'/src'</span>
+
+  <span class="n">bundle</span> <span class="s1">'foo.js'</span> <span class="k">do</span>
+    <span class="n">file</span> <span class="s1">'file1.js'</span>
+    <span class="n">file</span> <span class="s1">'file2.js'</span>
+  <span class="k">end</span>
+
+  <span class="n">bundle</span> <span class="s1">'foo2.js'</span> <span class="k">do</span>
+    <span class="n">file</span> <span class="s1">'file3.js'</span>
+    <span class="n">file</span> <span class="s1">'file4.js'</span>
+  <span class="k">end</span>
+
+  <span class="n">file</span> <span class="s1">'file4.js'</span>
+
+  <span class="n">file</span> <span class="s1">'text.txt'</span>
+
+  <span class="c1"># Filters can be use for string substitution</span>
+  <span class="n">filter</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="p">,</span> <span class="n">config</span><span class="o">|</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&lt;VERSION&gt;/</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">target_dir</span> <span class="s1">'dist'</span>
+
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Then write them to the configured target directory</p>
+
+<pre><code>JBundle.write!
+</code></pre>
+
+<p>JBundle.write! returns an array of paths of all files written.</p>
+
+<p>This will write the following files:</p>
+
+<pre><code>'dist/1.6.1/foo.js'
+'dist/1.6.1/foo.min.js'
+'dist/1.6.1/foo2.js'
+'dist/1.6.1/foo2.min.js'
+'dist/1.6.1/file4.js'
+'dist/1.6.1/file4.min.js'
+'dist/1.6.1/text.txt'
+
+'dist/1.6/foo.js'
+'dist/1.6/foo.min.js'
+'dist/1.6/foo2.js'
+'dist/1.6/foo2.min.js'
+'dist/1.6/file4.js'
+'dist/1.6/file4.min.js'
+'dist/1.6/text.txt'
+</code></pre>
+
+<p>Or you can build a single bundle/file dynamically (ie. for testing, or for serving and caching on first serve)</p>
+
+<div class="highlight">
+<pre><span class="no">JBundle</span><span class="o">.</span><span class="n">config_from_file</span> <span class="s1">'./JFile'</span>
+<span class="no">JBundle</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s1">'foo.js'</span><span class="p">)</span><span class="o">.</span><span class="n">src</span>
+</pre>
+</div>
+
+
+<p>Or</p>
+
+<div class="highlight">
+<pre><span class="no">JBundle</span><span class="o">.</span><span class="n">config_from_file</span> <span class="s1">'./JFile'</span>
+<span class="no">JBundle</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s1">'foo.js'</span><span class="p">)</span><span class="o">.</span><span class="n">min</span>
+</pre>
+</div>
+
+
+<p>You can bundle licenses in bundles. Licenses will not be minified even though they end up being part of minified files</p>
+
+<div class="highlight">
+<pre><span class="n">bundle</span> <span class="s1">'foo2.js'</span> <span class="k">do</span>
+  <span class="n">license</span> <span class="s1">'license.txt'</span>
+  <span class="n">file</span> <span class="s1">'file3.js'</span>
+  <span class="n">file</span> <span class="s1">'file4.js'</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>All defined filters will run on the src for all these cases.</p>
+
+<h2>Versioned file names, jQuery style</h2>
+
+<p>All of the examples above bundle to versioned directories in the "dist" directory. If you want jQuery-style file names, where there's no version directory and the version number is part of the file name, you can do this:</p>
+
+<div class="highlight">
+<pre><span class="n">version</span> <span class="s1">'1.6.1'</span><span class="p">,</span> <span class="ss">:directory</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+
+<span class="n">bundle</span> <span class="s1">'foo.js'</span> <span class="o">=&gt;</span> <span class="s1">'foo2-[:version].js'</span> <span class="k">do</span>
+  <span class="n">license</span> <span class="s1">'license.txt'</span>
+  <span class="n">file</span> <span class="s1">'file3.js'</span>
+  <span class="n">file</span> <span class="s1">'file4.js'</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>That will produce:</p>
+
+<pre><code>'dist/foo-1.6.1.js'
+'dist/foo-1.6.1.min.js'
+'dist/foo-1.6.js'
+'dist/foo-1.6.min.js'
+</code></pre>
+
+<p>That works for single-file libraries too:</p>
+
+<div class="highlight">
+<pre><span class="n">file</span> <span class="s1">'jquery.lightbox.js'</span> <span class="o">=&gt;</span> <span class="s1">'jquery.lightbox-[:version].js'</span>
+</pre>
+</div>
+
+
+<h2>Filters</h2>
+
+<p>You can filter both minified and un-minified source and license content with the filter method</p>
+
+<div class="highlight">
+<pre><span class="c1"># Filters can be use for string substitution</span>
+<span class="n">filter</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="p">,</span> <span class="n">config</span><span class="o">|</span>
+  <span class="n">src</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&lt;VERSION&gt;/</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>You can declare filters that run on un-minified output only</p>
+
+<div class="highlight">
+<pre><span class="n">filter</span> <span class="ss">:src</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="p">,</span> <span class="n">config</span><span class="o">|</span>
+  <span class="n">src</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&lt;SRC_MODE&gt;/</span><span class="p">,</span> <span class="s1">'full source'</span><span class="p">)</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>... And minified output only</p>
+
+<div class="highlight">
+<pre><span class="n">filter</span> <span class="ss">:min</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="p">,</span> <span class="n">config</span><span class="o">|</span>
+  <span class="n">src</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/&lt;SRC_MODE&gt;/</span><span class="p">,</span> <span class="s1">'minified source'</span><span class="p">)</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>All filters must return a copy of the source, so use src.gsub instead of src.gsub!</p>
+
+<h2>JFile</h2>
+
+<p>You can add configuration in a JFile in the root of your project.</p>
+
+<div class="highlight">
+<pre><span class="n">version</span> <span class="s1">'1.0.1'</span>
+
+<span class="n">src_dir</span> <span class="s1">'./'</span>
+
+<span class="n">bundle</span> <span class="s1">'foo.js'</span> <span class="k">do</span>
+  <span class="n">license</span> <span class="s1">'license.txt'</span>
+  <span class="n">file</span> <span class="s1">'file1.js'</span>
+  <span class="n">file</span> <span class="s1">'file2.js'</span>
+<span class="k">end</span>
+
+<span class="n">file</span> <span class="s1">'page.html'</span>
+
+<span class="n">filter</span> <span class="k">do</span> <span class="o">|</span><span class="n">src</span><span class="p">,</span> <span class="n">config</span><span class="o">|</span>
+  <span class="n">src</span><span class="o">.</span><span class="n">gsub!</span> <span class="sr">/&lt;VERSION&gt;/</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">to_s</span>
+<span class="k">end</span>
+
+<span class="n">target_dir</span> <span class="s1">'dist'</span>
+</pre>
+</div>
+
+
+<p>Then you can bundle everything up with the command line tool</p>
+
+<pre><code>$ jbundle
+</code></pre>
+
+<p>You can run arbitrary code after writing all versioned files by registering an after_write block in your JFile. The following example copies a .swf file from the src dir to all versioned directories</p>
+
+<div class="highlight">
+<pre><span class="n">after_write</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+
+  <span class="n">config</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">releaseable</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">version</span><span class="o">|</span>
+    <span class="n">from</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">config</span><span class="o">.</span><span class="n">src_dir</span><span class="si">}</span><span class="s2">/foo.swf"</span>
+    <span class="n">to</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">config</span><span class="o">.</span><span class="n">target_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">/foo.swf"</span>
+    <span class="nb">puts</span> <span class="s2">"copying </span><span class="si">#{</span><span class="n">to</span><span class="si">}</span><span class="s2">"</span>
+    <span class="no">FileUtils</span><span class="o">.</span><span class="n">cp</span><span class="p">(</span><span class="n">from</span><span class="p">,</span> <span class="n">to</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>config.version.releaseble returns an array with with all created versions (ie. ['1.6.1', '1.6'] or just ['1.6.1-pre'] for prereleases).</p>
+
+<p>Files in subdirectories in the src directory will keep the local directory tree, so</p>
+
+<div class="highlight">
+<pre><span class="n">file</span> <span class="s1">'foo/text.txt'</span>
+</pre>
+</div>
+
+
+<p>Ends up as ./dist/1.6/foo/text.txt and ./dist/1.6.1/foo/text.txt</p>
+
+<p>You can also copy to a different file name in the target directory using hash notation</p>
+
+<div class="highlight">
+<pre><span class="n">file</span> <span class="s1">'foo/text.txt'</span> <span class="o">=&gt;</span> <span class="s1">'bar.txt'</span>
+</pre>
+</div>
+
+
+<h2>Pre-releases</h2>
+
+<p>If you want a prerelease not to overwrite the previous point release, suffix it with "-pre", as in:</p>
+
+<div class="highlight">
+<pre><span class="n">version</span> <span class="s1">'1.0.1-pre'</span>
+</pre>
+</div>
+
+
+<h2>Test server</h2>
+
+<p>JBundle command-line comes with a built-in Rack server that makes it easy to test you JavaScript bundles as you develop them.</p>
+
+<pre><code>jbundle server
+
+Starting test server on http://localhost:5555. Available bundles:
+- /foo.js
+Run tests on ./tests/index.html
+</code></pre>
+
+<p>That serves JavaScript bundles defined in your JFile in port 5555. Pass the -p option for a different port. ./tests/index.html runs your tests (Qunit by default) in the ./tests directory</p>
+
+<p>You can chose what testing framework to use when initialising the project. Options are qunit and jasmine.</p>
+
+<pre><code>jbundle init foo.js --tests=jasmine
+</code></pre>
+
+<p>Learn more about the JBundle command-line with</p>
+
+<pre><code>jbundle help # all commands
+jbundle help server # server command options
+</code></pre>
+
+<h2>Generator</h2>
+
+<p>The command line has a quick generator that creates stub files for your library code, an example file and tests using Qunit.   </p>
+
+<pre><code>jbundle init my_library.js
+
+create  JFile
+      create  src
+      create  src/license.txt
+      create  src/my_library.js
+      create  test
+      create  test/index.html
+      create  test/tests.js
+      create  test/qunit.js
+      create  test/qunit.css
+      create  dist
+Done. Try it!
+
+    jbundle s
+    open test/index.html
+</code></pre>
+
+<p>At the moment only Qunit (default) and Jasmine are supported in the generator but others would be easy to add.</p>
+
+<p>To generate jasmine test stubs, run the command with <code>-t jasmine</code></p>
+
+<p>If you don't need the test stubs run the command with <code>--no-tests</code></p>
+
+<h2>TODO</h2>
+
+<ul>
+<li>DRY up stuff, better error handling for missing config</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jbundle maintained by <a href="https://github.com/ismasan">ismasan</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
